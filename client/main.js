@@ -26,7 +26,12 @@
     
     // Initialize modules
     CanvasModule.init();
-    WebSocketModule.init('http://localhost:3001');
+    // Dynamic URL for production and local development
+    const socketUrl = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3001' 
+    : window.location.origin;
+
+    WebSocketModule.init(socketUrl);
     
     // Setup UI event listeners
     setupUIListeners();

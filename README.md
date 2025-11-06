@@ -216,7 +216,7 @@ lsof -ti:3001 | xargs kill -9
 
 **Solution**: Draw something first, then try undo
 
-## ⏱Time Spent
+## Time Spent
 
 ### Development Breakdown
 
