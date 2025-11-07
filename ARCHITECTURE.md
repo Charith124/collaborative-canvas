@@ -19,20 +19,19 @@ This is a real-time collaborative drawing application built with **Vanilla JavaS
 - **In-memory storage** for drawing state
 
 ## Data Flow Diagram
-## Data Flow Diagram
 
 ```mermaid
-flowchart TD
+flowchart LR
 
-%% User A Side
+%% ==== User A Side ====
 subgraph UA["User A (Browser)"]
     UA1[Canvas.js] --> UA2[Main.js]
     UA2 --> UA3[WebSocket.js]
     UA1 -->|Draw Event| UA2
-    UA3 -->|Emit Action| Server
+    UA3 -->|Emit Action| WS[(WebSocket Connection)]
 end
 
-%% Server Side
+%% ==== Server Side ====
 subgraph S["Server (Node.js)"]
     S1[Server.js] --> S2[DrawingState.js]
     S2 --> S3[RoomManager]
@@ -40,18 +39,18 @@ subgraph S["Server (Node.js)"]
     S2 -->|Store History| S3
     S1 -->|Validate| S2
     S3 -->|Manage State| S2
-    S1 -->|Broadcast to All Clients| UB
+    S1 -->|Broadcast to Clients| WS
 end
 
-%% User B Side
+%% ==== User B Side ====
 subgraph UB["User B (Browser)"]
     UB1[WebSocket.js] --> UB2[Main.js]
     UB2 --> UB3[Canvas.js]
     UB3 -->|Render| CanvasDisplay[[Canvas Display]]
 end
 
-%% Connections
-UA3 -. WebSocket Connection .-> S1
+%% ==== Connections ====
+WS -. WebSocket Connection .-> S1
 S1 -->|Broadcast| UB1
 ```
 
